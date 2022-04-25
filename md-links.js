@@ -2,9 +2,9 @@ const fs = require('fs');
 const process = require('process');
 const path = require('path');
 
-const isMd = (workingPath) => {
-  console.log (workingPath, 'checking if its md')
-  
+const verifyContent = (workingPath, data) => {
+  console.log (workingPath, 'looking for links')
+    
 }
 
 const isDir = (workingPath) => {
@@ -15,11 +15,13 @@ const isDir = (workingPath) => {
 }
 
 const isAFile = (workingPath) => {
-  fs.readFile(workingPath, (err) => {
-    if (err === null) {
-      isMd(workingPath)
-    }
-    else if (err.code === 'EISDIR'){
+  fs.readFile(workingPath, 'utf8', (err, data) => {
+    if (err === null && path.extname(workingPath) === '.md') {
+      console.log(data, 'data')
+      verifyContent(workingPath, data)
+    }else if (err === null && path.extname(workingPath) !== '.md') {
+      console.log('file is not md')
+    }else if (err.code === 'EISDIR'){
       console.log('is a directory')
       isDir(workingPath)
     }else {
