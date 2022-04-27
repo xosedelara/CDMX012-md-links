@@ -1,48 +1,32 @@
 const fs = require('fs');
-const process = require('process');
 const path = require('path');
 
-const verifyContent = (workingPath, data) => {
-  console.log (workingPath, 'looking for links')
-    
+// const { isAFile } = require('./index.js')
+
+/* function normalizePath (array) {
+  let normalizedPaths =[]
+  array.forEach(element => normalizedPaths.push(path.normalize(element)))
+  console.log(normalizedPaths)
+  return normalizedPaths
+} */
+
+function correctPath(file, workingPath){
+  const pathCorrected = path.resolve(path.join(workingPath, file))
+  console.log(pathCorrected, 'path corrected');
+  return pathCorrected
 }
 
-const isDir = (workingPath) => {
-  console.log('reading directory')
-  /* fs.readdir(workingPath, (err) => {
+function resolvePathsInFolder (files, givenPath) {
+  let filesArray = [];
+  console.log('resolving each path from files in folder');
+  files.forEach(file => filesArray.push(correctPath(file, givenPath)));
+  console.log(filesArray);
+  return filesArray
+} 
 
-  } */
-}
-
-const isAFile = (workingPath) => {
-  fs.readFile(workingPath, 'utf8', (err, data) => {
-    if (err === null && path.extname(workingPath) === '.md') {
-      console.log(data, 'data')
-      verifyContent(workingPath, data)
-    }else if (err === null && path.extname(workingPath) !== '.md') {
-      console.log('file is not md')
-    }else if (err.code === 'EISDIR'){
-      console.log('is a directory')
-      isDir(workingPath)
-    }else {
-      console.log('error reading a file')
-      console.error(err)
-    }
-  });
+function resolvePath (givenPath) {
+  console.log(givenPath, 'is turning absolute');
+  return path.resolve(givenPath);
 };
 
-const resolvePath = (givenPath) => {
-  let newPath = path.resolve(givenPath);
-  console.log(newPath, 'is now absolute');
-  isAFile(newPath);
-};
-
-const pathIsAbsolute = (givenPath) => {
-  if (path.isAbsolute(givenPath)){
-    console.log(givenPath, 'path was absolute');
-    isAFile(givenPath)
-  } else {
-    resolvePath(givenPath);
-}};
-
-module.exports = { pathIsAbsolute }
+module.exports = { resolvePath, resolvePathsInFolder/* , normalizePath */ };
