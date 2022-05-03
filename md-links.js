@@ -1,16 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
-// const { isAFile } = require('./index.js')
-
-/* function normalizePath (array) {
-  let normalizedPaths =[]
-  array.forEach(element => normalizedPaths.push(path.normalize(element)))
-  console.log(normalizedPaths)
-  return normalizedPaths
-} */
-
 function correctPath(file, workingPath){
+  console.log(file, 'file');
+  console.log(workingPath, 'workingPath')
   const pathCorrected = path.resolve(path.join(workingPath, file))
   console.log(pathCorrected, 'path corrected');
   return pathCorrected
@@ -29,4 +22,4 @@ function resolvePath (givenPath) {
   return path.resolve(givenPath);
 };
 
-module.exports = { resolvePath, resolvePathsInFolder/* , normalizePath */ };
+module.exports = { resolvePath, resolvePathsInFolder, correctPath };

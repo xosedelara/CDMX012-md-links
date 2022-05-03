@@ -2,33 +2,48 @@ const fs = require('fs');
 const process = require('process');
 const path = require('path');
 
-const  { resolvePath, resolvePathsInFolder/* , normalizePath */ } = require('./md-links.js')
+const { gettingLinks } = require('./getLinks');
+const  { resolvePath, resolvePathsInFolder } = require('./md-links.js')
 
 const givenPath = (process.argv[2]);
 console.log(givenPath, 'is now givenPath');
 
-function lookForLinks(workingPath, data) {
-    console.log('looking for links in ', workingPath, data)
+
+function lookForLinks(mdFiles) {
+    console.log('looking for links in ', mdFiles)
+    if (mdFiles.length>1){
+        for (const file in mdFiles) {
+        gettingLinks(file)
+        }
+    }else gettingLinks(mdFiles)
 }
 
 function isDir (workingPath) {
     console.log('reading directory');
     fs.readdir(workingPath, 'utf8', (err, files) => {
-      if (err) return console.error
-      console.log(files, 'these are the files');
+      if (err){
+        return console.error
+      }else {console.log(files, 'these are the files');
       resolvePathsInFolder(files, workingPath).forEach(path => isAFile(path));
-      // normalizePath(resolvePathsInFolder(files));
+    }// normalizePath(resolvePathsInFolder(files));
     });
 };
 
+function determineTypeOfFile(workingPath) {
+    const arrayOfMdFiles = [];
+    if (path.extname(workingPath)=== '.md'){
+        console.log(workingPath, 'path is .md')
+        arrayOfMdFiles.push(workingPath)
+        console.log(arrayOfMdFiles)
+        lookForLinks(arrayOfMdFiles)
+    } else console.log(workingPath, 'path is not .md')
+}
+
 function isAFile (workingPath) {
-    console.log(workingPath, 'isAFile');
-    fs.readFile(workingPath, 'utf8', (err, data) => {
-        if (err === null && path.extname(workingPath) === '.md') {
-            console.log(data, 'data');
-            lookForLinks(workingPath, data);
-        } else if (err === null && path.extname(workingPath) !== '.md') {
-            console.log('file is not md');
+    console.log(workingPath, 'checking if its a file');
+    fs.readFile(workingPath, 'utf8', (err) => {
+        if (err === null){
+            determineTypeOfFile(workingPath)
         } else if (err.code === 'EISDIR') {
             console.log('is a directory');
             isDir(workingPath);
@@ -58,4 +73,4 @@ function pathExists () {
     });
 };
 pathExists(givenPath);
- // System.out.println(ANSI_COLORNAME + "This text is colored" + ANSI_RESET);
+
