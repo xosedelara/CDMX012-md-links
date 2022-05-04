@@ -1,25 +1,8 @@
-const fs = require('fs');
-const path = require('path');
+const process = require('process')
+const { pathExists } = require('./index')
+// const {makeArrayOfLinks} = require('./getLinks')
 
-function correctPath(file, workingPath){
-  console.log(file, 'file');
-  console.log(workingPath, 'workingPath')
-  const pathCorrected = path.resolve(path.join(workingPath, file))
-  console.log(pathCorrected, 'path corrected');
-  return pathCorrected
-}
+const givenPath = (process.argv[2]);
+console.log(givenPath, 'is now givenPath');
 
-function resolvePathsInFolder (files, givenPath) {
-  let filesArray = [];
-  console.log('resolving each path from files in folder');
-  files.forEach(file => filesArray.push(correctPath(file, givenPath)));
-  console.log(filesArray);
-  return filesArray
-} 
-
-function resolvePath (givenPath) {
-  console.log(givenPath, 'is turning absolute');
-  return path.resolve(givenPath);
-};
-
-module.exports = { resolvePath, resolvePathsInFolder, correctPath };
+pathExists(givenPath);

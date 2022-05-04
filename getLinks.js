@@ -2,23 +2,24 @@ const cheerio = require('cheerio');
 const fs = require('fs');
 const marked = require('marked');
 
+let linksArray = []
+let totalLinks = 0
+
 function makeArrayOfLinks(data, file){
     const dataHTML = marked.parse(data)
     const $ = cheerio.load(dataHTML);
-    const linksArray = []
-    $('http').each((i, link) => {
-        const linkHref = link.attribs.href;
-        const text = link.attribs.text;
-        const linkObject = {
-            href: linkHref,
-            text: text,
+    $('a').each((i, link) => {
+        totalLinks ++
+        linksArray.push({            
+            href: link.attribs.href,
+            text: $(link).text(),
             file: file
-        }
-        linksArray.push(linkObject);
-        console.log(linksArray)
+        })
     });
+    console.log(linksArray, totalLinks)
     return linksArray
 };
+
 
 function gettingLinks(searchPath){
     const file = searchPath.toString();
@@ -26,9 +27,9 @@ function gettingLinks(searchPath){
         if (err){
             console.log(err.code)
         } else{
-            return makeArrayOfLinks(data, file)
+            makeArrayOfLinks(data, file)
         }
     });
 };
 
-module.exports = { gettingLinks };
+module.exports = { gettingLinks, makeArrayOfLinks };
