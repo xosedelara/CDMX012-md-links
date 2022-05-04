@@ -1,5 +1,5 @@
 const process = require('process')
-const { pathExists } = require('./index')
+const { pathExists } = require('./components/index')
 // const {makeArrayOfLinks} = require('./getLinks')
 
 const givenPath = (process.argv[2]);
