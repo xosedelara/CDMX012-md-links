@@ -1,5 +1,5 @@
 /* const { describe } = require('yargs'); */
-const { gettingLinks } = require('../getLinks');
+
 const { resolvePath, resolvePathsInFolder } = require('../md-links');
 const { correctPath } = require('../md-links')
 
