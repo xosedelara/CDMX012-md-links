@@ -1,5 +1,4 @@
-const fs = require('fs');
-const path = require('path');
+const { fs, path } = require('./exports');
 
 const { resolvePathsInFolder } = require('./pathFunctions.js')
 
@@ -20,7 +19,7 @@ function typeOfFile(workingPath) {
 
 function pathIsAbsolute(givenPath) {
     if (path.isAbsolute(givenPath)=== true) {
-        return givenPath
+        return givenPath                                                                                   
         // isAFile(givenPath)
     } else {
         return path.resolve(givenPath) 

@@ -1,6 +1,4 @@
-const cheerio = require('cheerio');
-const fs = require('fs');
-const marked = require('marked');
+const { cheerio, fs, marked } = require('./exports');
 
 function gettingLinks(arrayOfFiles){
     let result = []

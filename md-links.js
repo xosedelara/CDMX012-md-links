@@ -1,23 +1,20 @@
-const process = require('process');
 const { gettingLinks } = require('./components/getLinks');
 const {validateLinks}= require('./components/validate')
-const { pathExists, pathIsAbsolute, typeOfFile } = require('./components/index');
-const yargs = require('yargs');
+const { pathExists, pathIsAbsolute, typeOfFile } = require('./components/getFiles');
 
-const givenPath = (process.argv[2]);
-const options = (process.argv[3]);
-
-
-const markedDownFiles = (givenPath, options) => {
+const mdLinks = (givenPath, option) => {
     return new Promise ((resolve, reject) => {
         if (pathExists(givenPath) === true){
-        const absolutePath = pathIsAbsolute(givenPath)
-        const mdFiles = typeOfFile(absolutePath)
-        if()
-        validateLinks(gettingLinks(mdFiles)).then(algo=>console.log(algo))
-        }else{
-            console.log('this path does not exist')
+            const absolutePath = pathIsAbsolute(givenPath)
+            const mdFiles = typeOfFile(absolutePath)
+            const mdLinks = gettingLinks(mdFiles)
+            if (option === undefined){
+                resolve (mdLinks)
+            }else if(option === 'validate'){
+                resolve (validateLinks(mdLinks))
+            }else reject
         }
     })
 }
-markedDownFiles(givenPath)
+
+module.exports = { mdLinks }

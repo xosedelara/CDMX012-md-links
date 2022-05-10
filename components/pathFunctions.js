@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const { fs, path } = require('./exports');
+
 
 function correctPath(file, workingPath){
   const pathCorrected = path.resolve(path.join(workingPath, file))

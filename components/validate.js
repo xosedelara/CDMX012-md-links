@@ -1,5 +1,4 @@
-const path = require('path')
-const axios = require('axios')
+const { axios } = require('./exports')
 
 const validateLinks = (array) => {
   let validatedLinks = Promise.all(array.map((obj) => {
