@@ -43,11 +43,11 @@ const broken = (res) => {
   return brokenLinks
 }
 //Chalk setup
-const error = chalk.red;
+/* const error = chalk.red;
 const warning = chalk.orange;
 const statsA = chalk.blue;
 const statsB = chalk.purple;
-const statsC = chalk.yellow
+const statsC = chalk.yellow */
 
 const main = () =>{
   const givenPath = (yargs.argv._).toString()
