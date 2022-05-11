@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { process, yargs } = require('../components/exports')
+const { yargs, chalk } = require('../components/exports')
 const { mdLinks } = require('../md-links');
 
 const argv = yargs
@@ -25,24 +25,51 @@ const argv = yargs
 .argv;
 
 
+//Stats Functions:
+const total = (res) =>{
+  return res.length
+}
+const unique= (res) => {
+  let uniqueLinks = new Set (res.map((element) => element.href)).size
+  return uniqueLinks
+}
+const broken = (res) => {
+  let brokenLinks = 0
+  for (element of res){
+    if (element.ok !== 'ok'){
+      brokenLinks++
+    }
+  }
+  return brokenLinks
+}
+//Chalk setup
+const error = chalk.red;
+const warning = chalk.orange;
+const statsA = chalk.blue;
+const statsB = chalk.purple;
+const statsC = chalk.yellow
 
 const main = () =>{
-const givenPath = process.argv[2];
-let option = '';
-if (yargs.argv._[0] == null) {
-  console.log('Please insert a path and an option, type --help if needed')
-} else if (yargs.argv.validate) {
-  option = 'validate'
-  mdLinks(givenPath, option).then(res => console.log(res))
-} else if (yargs.argv.stats) {
-  option = 'stats'
-  mdLinks(givenPath, option).then(res => console.log(res))
-} else if (yargs.argv.stats && yargs.argv.validate) {
-  option = 'validate, stats'
-  mdLinks(givenPath, option).then(res => console.log(res))
-} else {
-  option = undefined
-  mdLinks(givenPath, option).then(res => console.log(res))
-}
+  const givenPath = (yargs.argv._).toString()
+  let option = '';
+    if (yargs.argv._[0] === null) {
+      console.log(error.('Please insert a path and an option, type --help if needed'))
+    } else if (yargs.argv.validate) {
+      option = 'validate'
+      mdLinks(givenPath, option).then(res => {
+        console.log(res)
+        if(yargs.argv.stats){
+          console.log(('\nTotal: ') + total(res) + ('\nUnique: ') + unique(res) + ('\nBroken: ') + broken(res))
+        }
+      })
+    }else {
+      option = undefined
+      mdLinks(givenPath, option).then(res =>{ 
+        console.log(res)
+        if(yargs.argv.stats){
+          console.log(('\nTotal: ') + total(res) + ('\nUnique: ') + unique(res))
+        }
+      })
+  }
 }
 main()
