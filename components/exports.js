@@ -5,6 +5,5 @@ const path = require('path');
 const axios = require('axios');
 const process = require('process')
 const yargs = require('yargs')
-const colors = require('colors')
 
-module.exports = { cheerio, fs, marked, path, axios, process, yargs, colors };
+module.exports = { cheerio, fs, marked, path, axios, process, yargs };

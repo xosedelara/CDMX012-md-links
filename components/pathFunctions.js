@@ -1,4 +1,4 @@
-const { fs, path } = require('./exports');
+const { path } = require('./exports');
 
 
 function correctPath(file, workingPath){

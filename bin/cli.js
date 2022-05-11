@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { process, yargs, colors } = require('../components/exports')
+const { process, yargs } = require('../components/exports')
 const { mdLinks } = require('../md-links');
 
 const argv = yargs

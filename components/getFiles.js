@@ -31,7 +31,6 @@ function pathExists(givenPath) {
         return true
     } else {
         return console.error('the path does not exist') 
-        // pathIsAbsolute(givenPath);
     }
 };
 
